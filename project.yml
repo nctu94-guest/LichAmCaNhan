@@ -1,0 +1,27 @@
+name: LichAmCaNhan
+options:
+  bundleIdPrefix: vn.licham
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    INFOPLIST_KEY_CFBundleDisplayName: "Lịch Âm Việt Nam"
+    GENERATE_INFOPLIST_FILE: YES
+targets:
+  LichAmCaNhan:
+    type: application
+    platform: iOS
+    sources:
+      - path: .
+        excludes:
+          - .git
+          - .github
+          - "*.md"
+          - "*.yml"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: vn.licham.vietnam
+        CODE_SIGN_STYLE: Automatic
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
