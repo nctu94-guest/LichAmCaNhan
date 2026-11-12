@@ -1,0 +1,31 @@
+name: LichAmVietNam
+options:
+  bundleIdPrefix: vn.licham
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: 5.0
+    TARGETED_DEVICE_FAMILY: "1"
+    INFOPLIST_KEY_CFBundleDisplayName: "Lịch Âm Việt Nam"
+    INFOPLIST_KEY_NSCameraUsageDescription: ""
+    INFOPLIST_KEY_UIUserInterfaceStyle: Light
+    GENERATE_INFOPLIST_FILE: YES
+targets:
+  LichAmVietNam:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: vn.licham.vietnam
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_EMIT_LOC_STRINGS: YES
+    info:
+      path: Sources/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Light
+        NSCalendarsUsageDescription: "Ứng dụng dùng lịch âm để hiển thị ngày tháng và nhắc ngày lễ, ngày giỗ."
