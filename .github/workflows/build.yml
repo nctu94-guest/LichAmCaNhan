@@ -11,34 +11,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create Project Structure
+      - name: Compile App
         run: |
-          mkdir -p LichAmCaNhan.xcodeproj
-          # Tạo file cấu hình thô để Xcode nhận diện workspace
-          cat << 'EOF' > LichAmCaNhan.xcodeproj/project.pbxproj
-          // !$*UTF8*$!
-          {
-              archiveVersion = 1;
-              classes = {
-              };
-              objectVersion = 56;
-              objects = {
-              };
-              rootObject = 0000000100000000 /* Project object */;
-          }
+          mkdir -p Payload/LichAmCaNhan.app
+          swiftc ContentView.swift -o Payload/LichAmCaNhan.app/LichAmCaNhan -sdk $(xcrun --show-sdk-path --sdk iphoneos) -target arm64-apple-ios15.0 -framework SwiftUI -framework UIKit -framework Foundation -framework UserNotifications
+          
+          # Tạo file Info.plist tối thiểu cho app iOS
+          cat << 'EOF' > Payload/LichAmCaNhan.app/Info.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>CFBundleIdentifier</key>
+              <string>com.example.LichAmCaNhan</string>
+              <key>CFBundleName</key>
+              <string>LichAmCaNhan</string>
+              <key>CFBundleVersion</key>
+              <string>1</string>
+              <key>CFBundleShortVersionString</key>
+              <string>1.0</string>
+              <key>MinimumOSVersion</key>
+              <string>15.0</string>
+              <key>UIDeviceFamily</key>
+              <array>
+                  <integer>1</integer>
+              </array>
+          </dict>
+          </dict>
           EOF
 
-      - name: Build App (Unsigned)
-        run: |
-          mkdir -p Payload
-          # Biên dịch trực tiếp file Swift thành ứng dụng iOS
-          swiftc ContentView.swift -o LichAmCaNhanApp -sdk $(xcrun --show-sdk-path --sdk iphoneos) -target arm64-apple-ios15.0 || true
-          
-          # Đóng gói giả lập cấu trúc app đơn giản nếu chưa đủ file native
-          echo "Done preparation"
+          zip -r LichAmCaNhan.ipa Payload
 
-      - name: Upload status
+      - name: Upload IPA artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ios-source-code
-          path: ContentView.swift
+          name: ios-app-ipa
+          path: LichAmCaNhan.ipa
